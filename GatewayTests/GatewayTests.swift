@@ -30,5 +30,87 @@ class GatewayTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testURLParameterEncoder1() {
+        let request = URLRequest(url: URL(string: "http://sample.com")!)
+        let urlParameters = [
+            "id": "17",
+            "name": "Jon",
+            "surname": "Doe"
+        ]
+        XCTAssertNoThrow(try URLParameterEncoder.encode(parameters: urlParameters, in: request))
+    }
+    
+    func testURLParameterEncoder2() {
+        let request = URLRequest(url: URL(string: "http://sample.com")!)
+        let urlParameters = [
+            "id": "17",
+            "name": "Jon",
+            "surname": "Doe"
+        ]
+        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        XCTAssertNotNil(newRequest)
+    }
+    
+    func testURLParameterEncoder3() {
+        let request = URLRequest(url: URL(string: "http://sample.com")!)
+        let urlParameters = [
+            "id": "17",
+            "name": "Jon",
+            "surname": "Doe"
+        ]
+        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        
+        guard let url = newRequest?.url else {
+            XCTAssert(true)
+            return
+        }
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        XCTAssertNotNil(urlComponents)
+        var decodedParameters = [String: String]()
+        urlComponents!.queryItems?.forEach({ item in
+            decodedParameters[item.name] = item.value?.removingPercentEncoding
+        })
+        
+        XCTAssert(urlParameters == decodedParameters)
+    }
+    
+    func testURLParameterEncoder4() {
+        let request = URLRequest(url: URL(string: "http://sample.com")!)
+        let urlParameters = [String: String]()
+        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        
+        guard let url = newRequest?.url else {
+            XCTAssert(true)
+            return
+        }
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        XCTAssertNotNil(urlComponents)
+        XCTAssertNil(urlComponents!.queryItems)
+    }
+    
+    func testURLParameterEncoder5() {
+        let request = URLRequest(url: URL(string: "http://sample.com")!)
+        let urlParameters = [
+            "id": "17",
+            "name": "Jonathan William",
+            "surname": "O'Henry Busta"
+        ]
+        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        
+        guard let url = newRequest?.url else {
+            XCTAssert(true)
+            return
+        }
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        XCTAssertNotNil(urlComponents)
+        var decodedParameters = [String: String]()
+        urlComponents!.queryItems?.forEach({ item in
+            decodedParameters[item.name] = item.value?.removingPercentEncoding
+        })
+        
+        XCTAssert(urlParameters == decodedParameters)
+        XCTAssert(newRequest?.value(forHTTPHeaderField: ContentType.header) == ContentType.urlEncoded.rawValue)
+    }
 
 }
