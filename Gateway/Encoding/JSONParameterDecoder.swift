@@ -8,17 +8,8 @@
 
 import Foundation
 
-public struct JSONParameterDecoder<ResultType: Decodable>: ParameterDecodable {
-    public typealias ResultType = ResultType
+public func JSONResultDecoder<ResultType: Decodable>(data: Data?) -> ResultType? {
+    guard let data = data else { return nil }
     
-    public func decode(data: Data?, response: URLResponse?) throws -> ResultType {
-        guard let data = data else { throw GatewayError.genericError  /* TODO: throw proper error here */ }
-        
-        do {
-            return try JSONDecoder().decode(ResultType.self, from: data)
-        } catch {
-            throw GatewayError.genericError  /* TODO: throw proper error here */
-        }
-        
-    }
+    return try? JSONDecoder().decode(ResultType.self, from: data)
 }

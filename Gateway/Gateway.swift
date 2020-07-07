@@ -11,19 +11,32 @@ import Foundation
 public struct Request<ResultType: Codable> {
         
     public var request: URLRequest
-    public var resultDecoder: some ParameterDecodable = JSONParameterDecoder<ResultType>()
+    
+    public typealias BodyEncoder<BodyType> = (BodyType) -> Data
+    public typealias ResultDecoder<ResultType> = (Data?) -> ResultType?
+    
+    public var resultDecoder: ResultDecoder<ResultType>
     
     
     public init(
         method: Method,
         url: URL,
+        urlParams: Parameters = [:],
         body: Data? = nil,
-        headers: [String:String] = [:],
+        headers: Parameters = [:],
         timeoutInterval: TimeInterval = 60,
-        urlParams: [String:String] = [:]
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
     ) {
         do {
-            try self.init(method, url: url, body: body, headers: headers, timeoutInterval: timeoutInterval, urlParams: urlParams)
+            try self.init(
+                method,
+                url: url,
+                urlParams: urlParams,
+                body: body,
+                headers: headers,
+                timeoutInterval: timeoutInterval,
+                resultDecoder: resultDecoder
+            )
         } catch {
             preconditionFailure("Request couldn't be instantiated")
         }
@@ -32,11 +45,14 @@ public struct Request<ResultType: Codable> {
     public init(
         _ method: Method,
         url: URL,
+        urlParams: Parameters = [:],
         body: Data? = nil,
-        headers: [String:String] = [:],
+        headers: Parameters = [:],
         timeoutInterval: TimeInterval = 60,
-        urlParams: [String:String] = [:]
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
     ) throws {
+        self.resultDecoder = resultDecoder
+        
         request = URLRequest(url: url)
         do {
             try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers)
@@ -47,6 +63,28 @@ public struct Request<ResultType: Codable> {
         request.timeoutInterval = timeoutInterval
         request.httpMethod = method.rawValue
         request.httpBody = body
+    }
+    
+    public init<BodyType: Encodable>(
+        method: Method,
+        url: URL,
+        urlParams: [String:String] = [:],
+        body: BodyType,
+        headers: [String:String] = [:],
+        timeoutInterval: TimeInterval = 60,
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder,
+        bodyEncoder: BodyEncoder<BodyType>
+    ) {
+        let encodedBody = bodyEncoder(body)
+        self.init(
+            method: method,
+            url: url,
+            urlParams: urlParams,
+            body: encodedBody,
+            headers: headers,
+            timeoutInterval: timeoutInterval,
+            resultDecoder: resultDecoder
+        )
     }
     
     private mutating func encodeParametersIfNeeded(
@@ -85,7 +123,7 @@ public struct Request<ResultType: Codable> {
             // TODO: Add checks for status code
             
             if let data = data {
-                if let decodedData = try? JSONDecoder().decode(ResultType.self, from: data) {
+                if let decodedData = self.resultDecoder(data) {
                     completion(.success(decodedData))
                 } else {
                     completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
@@ -95,5 +133,9 @@ public struct Request<ResultType: Codable> {
             
         }
         task.resume()
+    }
+    
+    public func cancel() {
+        // TODO: calcel task
     }
 }
