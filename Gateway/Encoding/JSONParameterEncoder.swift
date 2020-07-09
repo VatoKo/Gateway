@@ -23,7 +23,7 @@ public struct JSONParameterEncoder: ParameterEncodable {
             }
             return newRequest
         } catch {
-            throw GatewayError.genericError /* TODO: throw proper error here */
+            throw GatewayException.failedToEncodeException
         }
     }
     

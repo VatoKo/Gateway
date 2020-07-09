@@ -12,7 +12,7 @@ public struct URLParameterEncoder: ParameterEncodable {
     
     public static func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
         
-        guard let url = request.url else { throw GatewayError.genericError /* TODO: throw proper error here */ }
+        guard let url = request.url else { throw GatewayException.urlNotFoundException }
         
         var newRequest = request
         

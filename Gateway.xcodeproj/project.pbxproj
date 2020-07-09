@@ -21,6 +21,7 @@
 		5EAD610524B3712D009881F6 /* JSONParameterDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610424B3712D009881F6 /* JSONParameterDecoder.swift */; };
 		5EAD610D24B73B50009881F6 /* HTTPURLResponse+Successful.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610C24B73B50009881F6 /* HTTPURLResponse+Successful.swift */; };
 		5EAD610F24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */; };
+		5EAD611124B74A30009881F6 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611024B74A30009881F6 /* Exception.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		5EAD610424B3712D009881F6 /* JSONParameterDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParameterDecoder.swift; sourceTree = "<group>"; };
 		5EAD610C24B73B50009881F6 /* HTTPURLResponse+Successful.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Successful.swift"; sourceTree = "<group>"; };
 		5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ExpressibleByStringLiteral.swift"; sourceTree = "<group>"; };
+		5EAD611024B74A30009881F6 /* Exception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exception.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				5EAD60F324B354F7009881F6 /* HttpMethod.swift */,
 				5EAD60FC24B36056009881F6 /* ContentType.swift */,
 				5EAD610224B36F54009881F6 /* Error.swift */,
+				5EAD611024B74A30009881F6 /* Exception.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				5EAD60FF24B367EE009881F6 /* JSONParameterEncoder.swift in Sources */,
 				5EAD60F424B354F7009881F6 /* HttpMethod.swift in Sources */,
 				5EAD610124B369E1009881F6 /* HeaderParameterEncoder.swift in Sources */,
+				5EAD611124B74A30009881F6 /* Exception.swift in Sources */,
 				5EAD60E024B23E5E009881F6 /* Gateway.swift in Sources */,
 				5EAD60F924B359C2009881F6 /* ParameterCodable.swift in Sources */,
 			);

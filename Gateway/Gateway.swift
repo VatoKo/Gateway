@@ -57,7 +57,7 @@ public struct Request<ResultType: Codable> {
         do {
             try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers)
         } catch {
-            throw GatewayError.genericError /* TODO: throw proper error here */
+            throw GatewayException.failedToEncodeException
         }
         
         request.timeoutInterval = timeoutInterval
@@ -101,7 +101,7 @@ public struct Request<ResultType: Codable> {
             do {
                 request = try JSONParameterEncoder.encode(parameters: body, in: request)
             } catch {
-                throw GatewayError.genericError /* TODO: throw proper error here */
+                throw GatewayException.failedToEncodeException
             }
         }
         
@@ -109,7 +109,7 @@ public struct Request<ResultType: Codable> {
             do {
                 request = try URLParameterEncoder.encode(parameters: urlParameters, in: request)
             } catch {
-                throw GatewayError.genericError /* TODO: throw proper error here */
+                throw GatewayException.failedToEncodeException
             }
         }
         

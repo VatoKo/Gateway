@@ -8,10 +8,6 @@
 
 import Foundation
 
-public enum GatewayError: Error {
-    case genericError
-}
-
 /**
  *  Error messages are provided from this link.
  *  Link: https://www.restapitutorial.com/httpstatuscodes.html#
