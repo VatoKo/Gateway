@@ -19,7 +19,7 @@ public struct Request<ResultType: Codable> {
     
     
     public init(
-        method: Method,
+        method: Method = .get,
         url: URL,
         urlParams: Parameters = [:],
         body: Data? = nil,
@@ -66,7 +66,7 @@ public struct Request<ResultType: Codable> {
     }
     
     public init<BodyType: Encodable>(
-        method: Method,
+        method: Method = .post,
         url: URL,
         urlParams: [String:String] = [:],
         body: BodyType,
@@ -85,6 +85,11 @@ public struct Request<ResultType: Codable> {
             timeoutInterval: timeoutInterval,
             resultDecoder: resultDecoder
         )
+    }
+    
+    public init(request: URLRequest, resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder) {
+        self.request = request
+        self.resultDecoder = resultDecoder
     }
     
     private mutating func encodeParametersIfNeeded(
