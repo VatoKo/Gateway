@@ -92,6 +92,54 @@ public struct Request<ResultType: Codable> {
         self.resultDecoder = resultDecoder
     }
     
+    /// Initializes multipart POST request.
+    /// - Parameters:
+    ///   - url: URL
+    ///   - urlParams: URL parameters
+    ///   - name: Name
+    ///   - fileName: File name
+    ///   - data: Data to send
+    ///   - mimeType: Data MIME type
+    ///   - headers: HTTP Headers
+    ///   - timeoutInterval: Request timeout
+    ///   - resultDecoder: Decoder
+    /// - Throws: GatewayException
+    public init(
+        url: URL,
+        urlParams: Parameters = [:],
+        name: String,
+        fileName: String,
+        data: Data,
+        mimeType: String,
+        headers: Parameters = [:],
+        timeoutInterval: TimeInterval = 60,
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
+    ) throws {
+        self.resultDecoder = resultDecoder
+        
+        let boundary = UUID().uuidString
+        var multipartData = Data()
+        
+        multipartData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        multipartData.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        multipartData.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        multipartData.append(data)
+
+        multipartData.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request = URLRequest(url: url)
+        do {
+            try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers)
+        } catch {
+            throw GatewayException.failedToEncodeException
+        }
+        
+        request.setValue(ContentType.multipart.rawValue + boundary, forHTTPHeaderField: ContentType.header)
+        request.timeoutInterval = timeoutInterval
+        request.httpMethod = Method.post.rawValue
+        request.httpBody = multipartData
+    }
+    
     private mutating func encodeParametersIfNeeded(
         urlParameters: Parameters = [:],
         headers: Parameters = [:],
@@ -118,7 +166,7 @@ public struct Request<ResultType: Codable> {
         }
     }
     
-    public func fetch(completion: @escaping (Result<ResultType, Error>) -> Void) {
+    public func send(completion: @escaping (Result<ResultType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: self.request) { data, response, error in
             if let error = error {
                 completion(.failure(ConnectionError(localizedDescription: error.localizedDescription)))
