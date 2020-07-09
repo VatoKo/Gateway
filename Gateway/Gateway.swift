@@ -125,22 +125,46 @@ public struct Request<ResultType: Codable> {
                 return
             }
 
-            // TODO: Add checks for status code
-            
-            if let data = data {
-                if let decodedData = self.resultDecoder(data) {
-                    completion(.success(decodedData))
-                } else {
-                    completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
-                }
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
                 return
             }
             
+            self.handleResponse(response: response, data: data, completion: completion)
         }
         task.resume()
     }
     
     public func cancel() {
         // TODO: calcel task
+    }
+    
+    private func handleResponse(response: HTTPURLResponse,
+                                data: Data?,
+                                completion: @escaping (Result<ResultType, GatewayError>) -> Void) {
+        switch response.statusCode {
+        case 200..<300:
+            handleSuccessfulResponse(data: data, completion: completion)
+        case 300..<400:
+            completion(.failure(GatewayError.genericError))
+        case 400..<500:
+            completion(.failure(GatewayError.genericError))
+        default:
+            completion(.failure(GatewayError.genericError))
+        }
+    }
+    
+    private func handleSuccessfulResponse(data: Data?, completion: @escaping (Result<ResultType, GatewayError>) -> Void) {
+        guard let data = data else {
+            completion(.failure(GatewayError.genericError))
+            return
+        }
+        
+        if let decodedData = self.resultDecoder(data) {
+            completion(.success(decodedData))
+        } else {
+            completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
+        }
+        
     }
 }
