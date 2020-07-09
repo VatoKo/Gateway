@@ -118,15 +118,15 @@ public struct Request<ResultType: Codable> {
         }
     }
     
-    public func fetch(completion: @escaping (Result<ResultType, GatewayError>) -> Void) {
+    public func fetch(completion: @escaping (Result<ResultType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: self.request) { data, response, error in
-            if let _ = error {
-                completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
+            if let error = error {
+                completion(.failure(ConnectionError(localizedDescription: error.localizedDescription)))
                 return
             }
-
+            
             guard let response = response as? HTTPURLResponse else {
-                completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
+                completion(.failure(GenericError()))
                 return
             }
             
@@ -141,29 +141,31 @@ public struct Request<ResultType: Codable> {
     
     private func handleResponse(response: HTTPURLResponse,
                                 data: Data?,
-                                completion: @escaping (Result<ResultType, GatewayError>) -> Void) {
+                                completion: @escaping (Result<ResultType, Error>) -> Void) {
         switch response.statusCode {
         case 200..<300:
             handleSuccessfulResponse(data: data, completion: completion)
         case 300..<400:
-            completion(.failure(GatewayError.genericError))
+            completion(.failure(RedirectionError(statusCode: response.statusCode)))
         case 400..<500:
-            completion(.failure(GatewayError.genericError))
+            completion(.failure(ClientError(statusCode: response.statusCode)))
+        case 500..<600:
+            completion(.failure(ServerError(statusCode: response.statusCode)))
         default:
-            completion(.failure(GatewayError.genericError))
+            completion(.failure(GenericError()))
         }
     }
     
-    private func handleSuccessfulResponse(data: Data?, completion: @escaping (Result<ResultType, GatewayError>) -> Void) {
+    private func handleSuccessfulResponse(data: Data?, completion: @escaping (Result<ResultType, Error>) -> Void) {
         guard let data = data else {
-            completion(.failure(GatewayError.genericError))
+            completion(.failure(NoDataInResponseError()))
             return
         }
         
         if let decodedData = self.resultDecoder(data) {
             completion(.success(decodedData))
         } else {
-            completion(.failure(GatewayError.genericError)) /* TODO: throw proper error here */
+            completion(.failure(FailedDecodingResultError()))
         }
         
     }
