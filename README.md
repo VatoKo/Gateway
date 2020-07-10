@@ -83,6 +83,8 @@ request.send { response in
 
 - **Create a new Pull Request** (<https://github.com/VatoKo/Gateway/pulls>)
 
+**See [``CONTRIBUTING``](https://github.com/VatoKo/Gateway/blob/master/CONTRIBUTING.md) for more information about how to make contribution.**
+
 ---
 
 ## Meta
