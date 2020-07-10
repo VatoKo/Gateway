@@ -22,6 +22,7 @@
 		5EAD610D24B73B50009881F6 /* HTTPURLResponse+Successful.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610C24B73B50009881F6 /* HTTPURLResponse+Successful.swift */; };
 		5EAD610F24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */; };
 		5EAD611124B74A30009881F6 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611024B74A30009881F6 /* Exception.swift */; };
+		5EAD611424B8C8B7009881F6 /* ThreadType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611324B8C8B7009881F6 /* ThreadType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		5EAD610C24B73B50009881F6 /* HTTPURLResponse+Successful.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Successful.swift"; sourceTree = "<group>"; };
 		5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ExpressibleByStringLiteral.swift"; sourceTree = "<group>"; };
 		5EAD611024B74A30009881F6 /* Exception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exception.swift; sourceTree = "<group>"; };
+		5EAD611324B8C8B7009881F6 /* ThreadType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				5EAD60FC24B36056009881F6 /* ContentType.swift */,
 				5EAD610224B36F54009881F6 /* Error.swift */,
 				5EAD611024B74A30009881F6 /* Exception.swift */,
+				5EAD611324B8C8B7009881F6 /* ThreadType.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EAD610F24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift in Sources */,
+				5EAD611424B8C8B7009881F6 /* ThreadType.swift in Sources */,
 				5EAD610324B36F54009881F6 /* Error.swift in Sources */,
 				5EAD60FD24B36056009881F6 /* ContentType.swift in Sources */,
 				5EAD610524B3712D009881F6 /* JSONParameterDecoder.swift in Sources */,

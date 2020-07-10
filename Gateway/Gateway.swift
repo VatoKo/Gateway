@@ -331,23 +331,33 @@ public struct Request<ResultType: Codable> {
         }
     }
     
-    
     /// Sends HTTP request and parses received response data into passed ResultType
-    /// - Parameter completion: Completion block which takes as a parameter Result which
-    ///                         encapsulates succesfully decoded data or proper error
-    public func send(completion: @escaping (Result<ResultType, Error>) -> Void) {
+    /// - Parameters:
+    ///   - thread: Thread type to dispatch completion block on
+    ///   - completion: Completion block which takes as a parameter Result which
+    ///                 encapsulates succesfully decoded data or proper error
+    public func send(
+        dispatchResultOn thread: ThreadType = .background,
+        didReceiveResult completion: @escaping (Result<ResultType, Error>) -> Void
+    ) {
         let task = URLSession.shared.dataTask(with: self.request) { data, response, error in
             if let error = error {
-                completion(.failure(ConnectionError(localizedDescription: error.localizedDescription)))
+                thread.async {
+                    completion(.failure(ConnectionError(localizedDescription: error.localizedDescription)))
+                }
                 return
             }
             
             guard let response = response as? HTTPURLResponse else {
-                completion(.failure(GenericError()))
+                thread.async {
+                    completion(.failure(GenericError()))
+                }
                 return
             }
             
-            self.handleResponse(response: response, data: data, completion: completion)
+            thread.async {
+                self.handleResponse(response: response, data: data, completion: completion)
+            }
         }
         task.resume()
     }
