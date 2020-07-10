@@ -10,7 +10,7 @@ import Foundation
 
 public struct URLParameterEncoder: ParameterEncodable {
     
-    public static func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
+    public func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
         
         guard let url = request.url else { throw GatewayException.urlNotFoundException }
         

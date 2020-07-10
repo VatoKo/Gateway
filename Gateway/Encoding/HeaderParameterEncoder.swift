@@ -10,7 +10,7 @@ import Foundation
 
 public struct HeaderParameterEncoder: ParameterEncodable {
     
-    public static func encode(parameters: Parameters, in request: URLRequest) -> URLRequest {
+    public func encode(parameters: Parameters, in request: URLRequest) -> URLRequest {
         var newRequest = request
         parameters.forEach {
             newRequest.setValue($1, forHTTPHeaderField: $0)

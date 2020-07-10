@@ -11,5 +11,5 @@ import Foundation
 public typealias Parameters = [String: String]
 
 public protocol ParameterEncodable {
-    static func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest
+    func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest
 }

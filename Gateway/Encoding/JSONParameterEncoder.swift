@@ -10,7 +10,9 @@ import Foundation
 
 public struct JSONParameterEncoder: ParameterEncodable {
     
-    public static func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
+    public init() {}
+    
+    public func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
         guard !parameters.isEmpty else { return request }
                 
         do {

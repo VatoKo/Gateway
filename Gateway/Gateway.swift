@@ -15,8 +15,8 @@ public struct Request<ResultType: Codable> {
     public typealias BodyEncoder<BodyType> = (BodyType) -> Data
     public typealias ResultDecoder<ResultType> = (Data?) -> ResultType?
     
-    public var resultDecoder: ResultDecoder<ResultType>
-    
+    private var parameterEncoder: ParameterEncodable
+    private var resultDecoder: ResultDecoder<ResultType>
     
     public init(
         method: Method = .get,
@@ -25,6 +25,7 @@ public struct Request<ResultType: Codable> {
         body: Data? = nil,
         headers: Parameters = [:],
         timeoutInterval: TimeInterval = 60,
+        parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
         resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
     ) {
         do {
@@ -35,34 +36,12 @@ public struct Request<ResultType: Codable> {
                 body: body,
                 headers: headers,
                 timeoutInterval: timeoutInterval,
+                parameterEncoder: parameterEncoder,
                 resultDecoder: resultDecoder
             )
         } catch {
             preconditionFailure("Request couldn't be instantiated")
         }
-    }
-    
-    public init(
-        _ method: Method,
-        url: URL,
-        urlParams: Parameters = [:],
-        body: Data? = nil,
-        headers: Parameters = [:],
-        timeoutInterval: TimeInterval = 60,
-        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
-    ) throws {
-        self.resultDecoder = resultDecoder
-        
-        request = URLRequest(url: url)
-        do {
-            try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers)
-        } catch {
-            throw GatewayException.failedToEncodeException
-        }
-        
-        request.timeoutInterval = timeoutInterval
-        request.httpMethod = method.rawValue
-        request.httpBody = body
     }
     
     public init<BodyType: Encodable>(
@@ -87,9 +66,30 @@ public struct Request<ResultType: Codable> {
         )
     }
     
-    public init(request: URLRequest, resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder) {
-        self.request = request
-        self.resultDecoder = resultDecoder
+    public init(
+        method: Method = .post,
+        url: URL,
+        urlParams: Parameters = [:],
+        body: Parameters,
+        headers: Parameters = [:],
+        timeoutInterval: TimeInterval = 60,
+        parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
+    ) {
+        do {
+            try self.init(
+                method,
+                url: url,
+                urlParams: urlParams,
+                body: body,
+                headers: headers,
+                timeoutInterval: timeoutInterval,
+                parameterEncoder: parameterEncoder,
+                resultDecoder: resultDecoder
+            )
+        } catch {
+            preconditionFailure("Request couldn't be instantiated")
+        }
     }
     
     /// Initializes multipart POST request.
@@ -102,8 +102,8 @@ public struct Request<ResultType: Codable> {
     ///   - mimeType: Data MIME type
     ///   - headers: HTTP Headers
     ///   - timeoutInterval: Request timeout
+    ///   - parameterEncoder: Parameter encoder
     ///   - resultDecoder: Decoder
-    /// - Throws: GatewayException
     public init(
         url: URL,
         urlParams: Parameters = [:],
@@ -113,9 +113,72 @@ public struct Request<ResultType: Codable> {
         mimeType: String,
         headers: Parameters = [:],
         timeoutInterval: TimeInterval = 60,
+        parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
+    ) {
+        do {
+            try self.init(
+                url,
+                urlParams: urlParams,
+                name: name,
+                fileName: fileName,
+                data: data,
+                mimeType: mimeType,
+                headers: headers,
+                timeoutInterval: timeoutInterval,
+                parameterEncoder: parameterEncoder,
+                resultDecoder: resultDecoder
+            )
+        } catch {
+            preconditionFailure("Request couldn't be instantiated")
+        }
+    }
+    
+    public init(request: URLRequest, parameterEncoder: ParameterEncodable = JSONParameterEncoder(), resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder) {
+        self.request = request
+        self.parameterEncoder = parameterEncoder
+        self.resultDecoder = resultDecoder
+    }
+    
+    private init(
+           _ method: Method,
+           url: URL,
+           urlParams: Parameters = [:],
+           body: Data? = nil,
+           headers: Parameters = [:],
+           timeoutInterval: TimeInterval = 60,
+           parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
+           resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
+       ) throws {
+           self.parameterEncoder = parameterEncoder
+           self.resultDecoder = resultDecoder
+           
+           request = URLRequest(url: url)
+           do {
+               try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers)
+           } catch {
+               throw GatewayException.failedToEncodeException
+           }
+           
+           request.timeoutInterval = timeoutInterval
+           request.httpMethod = method.rawValue
+           request.httpBody = body
+    }
+    
+    private init(
+        _ url: URL,
+        urlParams: Parameters = [:],
+        name: String,
+        fileName: String,
+        data: Data,
+        mimeType: String,
+        headers: Parameters = [:],
+        timeoutInterval: TimeInterval = 60,
+        parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
         resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
     ) throws {
         self.resultDecoder = resultDecoder
+        self.parameterEncoder = parameterEncoder
         
         let boundary = UUID().uuidString
         var multipartData = Data()
@@ -140,6 +203,30 @@ public struct Request<ResultType: Codable> {
         request.httpBody = multipartData
     }
     
+    private init(
+        _ method: Method = .post,
+        url: URL,
+        urlParams: Parameters = [:],
+        body: Parameters,
+        headers: Parameters = [:],
+        timeoutInterval: TimeInterval = 60,
+        parameterEncoder: ParameterEncodable = JSONParameterEncoder(),
+        resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder
+    ) throws {
+        self.resultDecoder = resultDecoder
+        self.parameterEncoder = parameterEncoder
+     
+         request = URLRequest(url: url)
+         do {
+             try encodeParametersIfNeeded(urlParameters: urlParams, headers: headers, body: body)
+         } catch {
+             throw GatewayException.failedToEncodeException
+         }
+         
+         request.timeoutInterval = timeoutInterval
+         request.httpMethod = method.rawValue
+    }
+    
     private mutating func encodeParametersIfNeeded(
         urlParameters: Parameters = [:],
         headers: Parameters = [:],
@@ -147,7 +234,7 @@ public struct Request<ResultType: Codable> {
     ) throws {
         if !body.isEmpty {
             do {
-                request = try JSONParameterEncoder.encode(parameters: body, in: request)
+                request = try parameterEncoder.encode(parameters: body, in: request)
             } catch {
                 throw GatewayException.failedToEncodeException
             }
@@ -155,14 +242,14 @@ public struct Request<ResultType: Codable> {
         
         if !urlParameters.isEmpty {
             do {
-                request = try URLParameterEncoder.encode(parameters: urlParameters, in: request)
+                request = try URLParameterEncoder().encode(parameters: urlParameters, in: request)
             } catch {
                 throw GatewayException.failedToEncodeException
             }
         }
         
         if !headers.isEmpty {
-            request = HeaderParameterEncoder.encode(parameters: headers, in: request)
+            request = HeaderParameterEncoder().encode(parameters: headers, in: request)
         }
     }
     
@@ -184,7 +271,7 @@ public struct Request<ResultType: Codable> {
     }
     
     public func cancel() {
-        // TODO: calcel task
+        // TODO: cancel task
     }
     
     private func handleResponse(response: HTTPURLResponse,
