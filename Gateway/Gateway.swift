@@ -18,6 +18,17 @@ public struct Request<ResultType: Codable> {
     private var parameterEncoder: ParameterEncodable
     private var resultDecoder: ResultDecoder<ResultType>
     
+    
+    /// Initializes Request object
+    /// - Parameters:
+    ///   - method: HTTP method
+    ///   - url: URL to make request to
+    ///   - urlParams: Additional URL parameters
+    ///   - body: HTTP body
+    ///   - headers: HTTP headers
+    ///   - timeoutInterval: Request timeout interval
+    ///   - parameterEncoder: Body parameters encoder object
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
     public init(
         method: Method = .get,
         url: URL,
@@ -44,6 +55,17 @@ public struct Request<ResultType: Codable> {
         }
     }
     
+    
+    /// Initializes Request object with generic body
+    /// - Parameters:
+    ///   - method: HTTP method
+    ///   - url: URL to make request to
+    ///   - urlParams: Additional URL parameters
+    ///   - body: Generic body that encapsulates HTTP body
+    ///   - headers: HTTP headers
+    ///   - timeoutInterval: Request timeout interval
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
+    ///   - bodyEncoder: Generic body encoder function
     public init<BodyType: Encodable>(
         method: Method = .post,
         url: URL,
@@ -66,6 +88,17 @@ public struct Request<ResultType: Codable> {
         )
     }
     
+    
+    /// Initializes Request object
+    /// - Parameters:
+    ///   - method: HTTP method
+    ///   - url: URL to make request to
+    ///   - urlParams: Additional URL parameters
+    ///   - body: HTTP body parameters
+    ///   - headers: HTTP headers
+    ///   - timeoutInterval: Request timeout interval
+    ///   - parameterEncoder: Body parameters encoder object
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
     public init(
         method: Method = .post,
         url: URL,
@@ -134,12 +167,28 @@ public struct Request<ResultType: Codable> {
         }
     }
     
+    
+    /// Initializes Request object with custom URLRequest
+    /// - Parameters:
+    ///   - request: predefined URLRequest
+    ///   - parameterEncoder: Body parameters encoder object
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
     public init(request: URLRequest, parameterEncoder: ParameterEncodable = JSONParameterEncoder(), resultDecoder: @escaping ResultDecoder<ResultType> = JSONResultDecoder) {
         self.request = request
         self.parameterEncoder = parameterEncoder
         self.resultDecoder = resultDecoder
     }
     
+    /// Initializes Request object
+    /// - Parameters:
+    ///   - method: HTTP method
+    ///   - url: URL to make request to
+    ///   - urlParams: Additional URL parameters
+    ///   - body: HTTP body
+    ///   - headers: HTTP headers
+    ///   - timeoutInterval: Request timeout interval
+    ///   - parameterEncoder: Body parameters encoder object
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
     private init(
            _ method: Method,
            url: URL,
@@ -165,6 +214,18 @@ public struct Request<ResultType: Codable> {
            request.httpBody = body
     }
     
+    /// Initializes multipart POST request.
+    /// - Parameters:
+    ///   - url: URL
+    ///   - urlParams: URL parameters
+    ///   - name: Name
+    ///   - fileName: File name
+    ///   - data: Data to send
+    ///   - mimeType: Data MIME type
+    ///   - headers: HTTP Headers
+    ///   - timeoutInterval: Request timeout
+    ///   - parameterEncoder: Parameter encoder
+    ///   - resultDecoder: Decoder
     private init(
         _ url: URL,
         urlParams: Parameters = [:],
@@ -203,6 +264,16 @@ public struct Request<ResultType: Codable> {
         request.httpBody = multipartData
     }
     
+    /// Initializes Request object
+    /// - Parameters:
+    ///   - method: HTTP method
+    ///   - url: URL to make request to
+    ///   - urlParams: Additional URL parameters
+    ///   - body: HTTP body parameters
+    ///   - headers: HTTP headers
+    ///   - timeoutInterval: Request timeout interval
+    ///   - parameterEncoder: Body parameters encoder object
+    ///   - resultDecoder: Function which decodes received response data into desired ResultType
     private init(
         _ method: Method = .post,
         url: URL,
@@ -227,6 +298,13 @@ public struct Request<ResultType: Codable> {
          request.httpMethod = method.rawValue
     }
     
+    
+    /// Adds necessary parameters to URLRequest object
+    /// - Parameters:
+    ///   - urlParameters: Additional URL parameters
+    ///   - headers: HTTP headers
+    ///   - body: HTTP body parameters
+    /// - Throws: Encoding failed exception
     private mutating func encodeParametersIfNeeded(
         urlParameters: Parameters = [:],
         headers: Parameters = [:],
@@ -253,6 +331,10 @@ public struct Request<ResultType: Codable> {
         }
     }
     
+    
+    /// Sends HTTP request and parses received response data into passed ResultType
+    /// - Parameter completion: Completion block which takes as a parameter Result which
+    ///                         encapsulates succesfully decoded data or proper error
     public func send(completion: @escaping (Result<ResultType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: self.request) { data, response, error in
             if let error = error {
@@ -270,10 +352,13 @@ public struct Request<ResultType: Codable> {
         task.resume()
     }
     
-    public func cancel() {
-        // TODO: cancel task
-    }
     
+    /// Handles received response according to HTTP status code
+    /// - Parameters:
+    ///   - response: Recevied HTTPURLResponse
+    ///   - data: Received data
+    ///   - completion: Completion block which takes as a parameter Result which
+    ///                 encapsulates succesfully decoded data or proper error
     private func handleResponse(response: HTTPURLResponse,
                                 data: Data?,
                                 completion: @escaping (Result<ResultType, Error>) -> Void) {
@@ -291,6 +376,12 @@ public struct Request<ResultType: Codable> {
         }
     }
     
+    
+    /// Handles successful HTTP response
+    /// - Parameters:
+    ///   - data: Received data
+    ///   - completion: Completion block which takes as a parameter Result which
+    ///                 encapsulates succesfully decoded data or proper error
     private func handleSuccessfulResponse(data: Data?, completion: @escaping (Result<ResultType, Error>) -> Void) {
         guard let data = data else {
             completion(.failure(NoDataInResponseError()))

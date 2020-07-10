@@ -8,8 +8,17 @@
 
 import Foundation
 
+
+/// Encodes additional URL parameters into URLRequest
 public struct URLParameterEncoder: ParameterEncodable {
     
+    
+    /// Encodes additional URL parameters into URLRequest
+    /// - Parameters:
+    ///   - parameters: URL parameters to encode
+    ///   - request: URLRequest to encode into
+    /// - Throws: URL not found exception
+    /// - Returns: New URLRequest with encoded parameters
     public func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
         
         guard let url = request.url else { throw GatewayException.urlNotFoundException }

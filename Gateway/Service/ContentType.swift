@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+/// HTTP Header
 public enum ContentType: String {
     case json = "application/json"
     case xml = "application/xml"

@@ -12,6 +12,12 @@ public struct JSONParameterEncoder: ParameterEncodable {
     
     public init() {}
     
+    /// Encodes passed parameters into HTTP body
+    /// - Parameters:
+    ///   - parameters: Parameters to encode
+    ///   - request: URLRequest to encode into
+    /// - Throws: Failed to encode exception
+    /// - Returns: New URLRequest with encoded parameters into body
     public func encode(parameters: Parameters, in request: URLRequest) throws -> URLRequest {
         guard !parameters.isEmpty else { return request }
                 

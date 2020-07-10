@@ -10,6 +10,12 @@ import Foundation
 
 public struct HeaderParameterEncoder: ParameterEncodable {
     
+    
+    /// Add HTTP headers to URLRequest
+    /// - Parameters:
+    ///   - parameters: Header parameters to add
+    ///   - request: URLRequest to add parameters to
+    /// - Returns: New URLRequest with added HTTP headers
     public func encode(parameters: Parameters, in request: URLRequest) -> URLRequest {
         var newRequest = request
         parameters.forEach {
