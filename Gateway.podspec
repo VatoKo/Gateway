@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "Gateway"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "Simple, elegant, easy-to-use network layer for Swift."
   spec.description  = <<-DESC
   Gateway is very simple, elegant and easy-to-use network layer for Swift, which will help you make HTTP requests, receive responses and parse received data into Swift's native objects.
@@ -21,6 +21,6 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, "12.4"
   spec.swift_version = '5.1'
   spec.source = { :git => "https://github.com/VatoKo/Gateway.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Gateway/*/*.swift"
+  spec.source_files  = "Gateway/*/*.swift", "Gateway/Gateway.swift"
   
 end
