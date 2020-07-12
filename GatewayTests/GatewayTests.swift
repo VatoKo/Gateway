@@ -112,5 +112,50 @@ class GatewayTests: XCTestCase {
         XCTAssert(urlParameters == decodedParameters)
         XCTAssert(newRequest?.value(forHTTPHeaderField: ContentType.header) == ContentType.urlEncoded.rawValue)
     }
+    
+    func testHeaderParameterEncoder1() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let headerParameters = [
+           "Host": "freeuni.edu.ge"
+        ]
 
+        XCTAssertNoThrow(try URLParameterEncoder().encode(parameters: headerParameters, in: request))
+    }
+    
+    func testHeaderParameterEncoder2() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let headerParameters = [
+            "Host": "freeuni.edu.ge"
+        ]
+
+        XCTAssertNotNil(HeaderParameterEncoder().encode(parameters: headerParameters, in: request))
+    }
+    
+    func testHeaderParameterEncoder3() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let headerParameters = [
+            "Host": "freeuni.edu.ge",
+            "Accept": "text/html",
+            "Accept-Encoding": "gzip, deflate"
+        ]
+        
+        let newRequest = HeaderParameterEncoder().encode(parameters: headerParameters, in: request)
+        headerParameters.forEach {
+             XCTAssert($1 == newRequest.value(forHTTPHeaderField: $0))
+        }
+    }
+    
+    func testHeaderParameterEncoder4() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let headerParameters = [
+            "Host": "freeuni.edu.ge",
+            "X-Forwarded-Host": "en.wikipedia.org",
+            "X-Csrf-Token": "i8XNjC4b8KVok4uw53ws32RftR38Wgp2"
+        ]
+        
+        let newRequest = HeaderParameterEncoder().encode(parameters: headerParameters, in: request)
+        headerParameters.forEach {
+            XCTAssert($1 == newRequest.value(forHTTPHeaderField: $0))
+        }
+    }
 }
