@@ -23,6 +23,11 @@
 		5EAD610F24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */; };
 		5EAD611124B74A30009881F6 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611024B74A30009881F6 /* Exception.swift */; };
 		5EAD611424B8C8B7009881F6 /* ThreadType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611324B8C8B7009881F6 /* ThreadType.swift */; };
+		5EAD611624B8CEC9009881F6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5EAD611524B8CEC9009881F6 /* README.md */; };
+		5EAD611924B8E61E009881F6 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 5EAD611824B8E61E009881F6 /* CONTRIBUTING.md */; };
+		5EAD611C24BA0ECC009881F6 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD611B24BA0ECC009881F6 /* Empty.swift */; };
+		5EAD611E24BB311E009881F6 /* Gateway.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5EAD611D24BB311E009881F6 /* Gateway.podspec */; };
+		5EAD612024BB3200009881F6 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5EAD611F24BB3200009881F6 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,11 @@
 		5EAD610E24B73BAB009881F6 /* URL+ExpressibleByStringLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ExpressibleByStringLiteral.swift"; sourceTree = "<group>"; };
 		5EAD611024B74A30009881F6 /* Exception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exception.swift; sourceTree = "<group>"; };
 		5EAD611324B8C8B7009881F6 /* ThreadType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadType.swift; sourceTree = "<group>"; };
+		5EAD611524B8CEC9009881F6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5EAD611824B8E61E009881F6 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		5EAD611B24BA0ECC009881F6 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
+		5EAD611D24BB311E009881F6 /* Gateway.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gateway.podspec; sourceTree = "<group>"; };
+		5EAD611F24BB3200009881F6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,10 @@
 		5EAD60BB24B23E16009881F6 = {
 			isa = PBXGroup;
 			children = (
+				5EAD611F24BB3200009881F6 /* LICENSE */,
+				5EAD611D24BB311E009881F6 /* Gateway.podspec */,
+				5EAD611824B8E61E009881F6 /* CONTRIBUTING.md */,
+				5EAD611524B8CEC9009881F6 /* README.md */,
 				5EAD60C724B23E16009881F6 /* Gateway */,
 				5EAD60D224B23E16009881F6 /* GatewayTests */,
 				5EAD60C624B23E16009881F6 /* Products */,
@@ -124,6 +138,7 @@
 				5EAD610224B36F54009881F6 /* Error.swift */,
 				5EAD611024B74A30009881F6 /* Exception.swift */,
 				5EAD611324B8C8B7009881F6 /* ThreadType.swift */,
+				5EAD611B24BA0ECC009881F6 /* Empty.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -242,6 +257,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EAD611924B8E61E009881F6 /* CONTRIBUTING.md in Resources */,
+				5EAD611E24BB311E009881F6 /* Gateway.podspec in Resources */,
+				5EAD612024BB3200009881F6 /* LICENSE in Resources */,
+				5EAD611624B8CEC9009881F6 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +283,7 @@
 				5EAD610324B36F54009881F6 /* Error.swift in Sources */,
 				5EAD60FD24B36056009881F6 /* ContentType.swift in Sources */,
 				5EAD610524B3712D009881F6 /* JSONParameterDecoder.swift in Sources */,
+				5EAD611C24BA0ECC009881F6 /* Empty.swift in Sources */,
 				5EAD60FB24B35B0C009881F6 /* URLParameterEncoder.swift in Sources */,
 				5EAD610D24B73B50009881F6 /* HTTPURLResponse+Successful.swift in Sources */,
 				5EAD60FF24B367EE009881F6 /* JSONParameterEncoder.swift in Sources */,
@@ -426,6 +446,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Gateway/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -452,6 +473,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Gateway/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
