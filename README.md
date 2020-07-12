@@ -9,7 +9,16 @@ Gateway is very simple, elegant and easy-to-use network layer for Swift, which w
 
 ## Installation
 
-> TODO: Add instalation guides
+**CocoaPods**
+To add `Gateway` to your project you can use [`CocoaPods`](https://cocoapods.org).
+* Just add `Gateway` pod to your `podfile`
+```swift
+    pod 'Gateway', :git => 'https://github.com/VatoKo/Gateway.git', :tag => '0.0.3'
+```
+* Run `pod install` command on your terminal
+```swift
+    pod install
+```
 ---
 
 ## Usage example
