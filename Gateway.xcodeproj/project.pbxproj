@@ -11,7 +11,7 @@
 		5EAD60D424B23E16009881F6 /* GatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60D324B23E16009881F6 /* GatewayTests.swift */; };
 		5EAD60D624B23E16009881F6 /* Gateway.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAD60C824B23E16009881F6 /* Gateway.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EAD60E024B23E5E009881F6 /* Gateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60DF24B23E5E009881F6 /* Gateway.swift */; };
-		5EAD60F424B354F7009881F6 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60F324B354F7009881F6 /* HttpMethod.swift */; };
+		5EAD60F424B354F7009881F6 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60F324B354F7009881F6 /* HTTPMethod.swift */; };
 		5EAD60F924B359C2009881F6 /* ParameterCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60F824B359C2009881F6 /* ParameterCodable.swift */; };
 		5EAD60FB24B35B0C009881F6 /* URLParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60FA24B35B0C009881F6 /* URLParameterEncoder.swift */; };
 		5EAD60FD24B36056009881F6 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAD60FC24B36056009881F6 /* ContentType.swift */; };
@@ -48,7 +48,7 @@
 		5EAD60D324B23E16009881F6 /* GatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayTests.swift; sourceTree = "<group>"; };
 		5EAD60D524B23E16009881F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5EAD60DF24B23E5E009881F6 /* Gateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gateway.swift; sourceTree = "<group>"; };
-		5EAD60F324B354F7009881F6 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		5EAD60F324B354F7009881F6 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		5EAD60F824B359C2009881F6 /* ParameterCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterCodable.swift; sourceTree = "<group>"; };
 		5EAD60FA24B35B0C009881F6 /* URLParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLParameterEncoder.swift; sourceTree = "<group>"; };
 		5EAD60FC24B36056009881F6 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		5EAD60F224B354BC009881F6 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				5EAD60F324B354F7009881F6 /* HttpMethod.swift */,
+				5EAD60F324B354F7009881F6 /* HTTPMethod.swift */,
 				5EAD60FC24B36056009881F6 /* ContentType.swift */,
 				5EAD610224B36F54009881F6 /* Error.swift */,
 				5EAD611024B74A30009881F6 /* Exception.swift */,
@@ -287,7 +287,7 @@
 				5EAD60FB24B35B0C009881F6 /* URLParameterEncoder.swift in Sources */,
 				5EAD610D24B73B50009881F6 /* HTTPURLResponse+Successful.swift in Sources */,
 				5EAD60FF24B367EE009881F6 /* JSONParameterEncoder.swift in Sources */,
-				5EAD60F424B354F7009881F6 /* HttpMethod.swift in Sources */,
+				5EAD60F424B354F7009881F6 /* HTTPMethod.swift in Sources */,
 				5EAD610124B369E1009881F6 /* HeaderParameterEncoder.swift in Sources */,
 				5EAD611124B74A30009881F6 /* Exception.swift in Sources */,
 				5EAD60E024B23E5E009881F6 /* Gateway.swift in Sources */,

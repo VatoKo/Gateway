@@ -1,5 +1,5 @@
 //
-//  HttpMethod.swift
+//  HTTPMethod.swift
 //  Gateway
 //
 //  Created by Vato Kostava on 7/6/20.

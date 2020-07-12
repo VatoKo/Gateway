@@ -38,7 +38,7 @@ class GatewayTests: XCTestCase {
             "name": "Jon",
             "surname": "Doe"
         ]
-        XCTAssertNoThrow(try URLParameterEncoder.encode(parameters: urlParameters, in: request))
+        XCTAssertNoThrow(try URLParameterEncoder().encode(parameters: urlParameters, in: request))
     }
     
     func testURLParameterEncoder2() {
@@ -48,7 +48,7 @@ class GatewayTests: XCTestCase {
             "name": "Jon",
             "surname": "Doe"
         ]
-        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        let newRequest = try? URLParameterEncoder().encode(parameters: urlParameters, in: request)
         XCTAssertNotNil(newRequest)
     }
     
@@ -59,7 +59,7 @@ class GatewayTests: XCTestCase {
             "name": "Jon",
             "surname": "Doe"
         ]
-        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        let newRequest = try? URLParameterEncoder().encode(parameters: urlParameters, in: request)
         
         guard let url = newRequest?.url else {
             XCTAssert(true)
@@ -78,7 +78,7 @@ class GatewayTests: XCTestCase {
     func testURLParameterEncoder4() {
         let request = URLRequest(url: URL(string: "http://sample.com")!)
         let urlParameters = [String: String]()
-        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        let newRequest = try? URLParameterEncoder().encode(parameters: urlParameters, in: request)
         
         guard let url = newRequest?.url else {
             XCTAssert(true)
@@ -96,7 +96,7 @@ class GatewayTests: XCTestCase {
             "name": "Jonathan William",
             "surname": "O'Henry Busta"
         ]
-        let newRequest = try? URLParameterEncoder.encode(parameters: urlParameters, in: request)
+        let newRequest = try? URLParameterEncoder().encode(parameters: urlParameters, in: request)
         
         guard let url = newRequest?.url else {
             XCTAssert(true)
