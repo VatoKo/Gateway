@@ -21,6 +21,6 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, "12.4"
   spec.swift_version = '5.1'
   spec.source = { :git => "https://github.com/VatoKo/Gateway.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Gateway"
+  spec.source_files  = "Gateway/**/*.swift"
   
 end
