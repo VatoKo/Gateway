@@ -2,9 +2,6 @@
 //  GatewayTests.swift
 //  GatewayTests
 //
-//  Created by Vato Kostava on 7/5/20.
-//  Copyright © 2020 Vato Kostava. All rights reserved.
-//
 
 import XCTest
 @testable import Gateway
@@ -157,5 +154,57 @@ class GatewayTests: XCTestCase {
         headerParameters.forEach {
             XCTAssert($1 == newRequest.value(forHTTPHeaderField: $0))
         }
+    }
+    
+    func testURLExpressibleByStringLiteral1() {
+        let url: URL = URL(string: "freeuni.edu.ge")!
+        let urlLiteral: URL = "freeuni.edu.ge"
+        
+        XCTAssert(url.absoluteString == urlLiteral.absoluteString)
+    }
+    
+    func testURLExpressibleByStringLiteral2() {
+        let url: URL = URL(string: "https://on.ge/story/59808-%E1%83%9B%E1%83%94%E1%83%AA%E1%83%9C%E1%83%98%E1%83%94%E1%83%A0%E1%83%94%E1%83%91%E1%83%98-%E1%83%99%E1%83%9D%E1%83%A0%E1%83%9D%E1%83%9C%E1%83%90%E1%83%95%E1%83%98%E1%83%A0%E1%83%A3%E1%83%A1%E1%83%97%E1%83%90%E1%83%9C-%E1%83%91%E1%83%A0%E1%83%AB%E1%83%9D%E1%83%9A%E1%83%90%E1%83%A8%E1%83%98-%E1%83%9A%E1%83%90%E1%83%9B%E1%83%94%E1%83%91%E1%83%98%E1%83%A1-%E1%83%90%E1%83%9C%E1%83%A2%E1%83%98%E1%83%A1%E1%83%AE%E1%83%94%E1%83%A3%E1%83%94%E1%83%9A%E1%83%91%E1%83%A1-%E1%83%98%E1%83%A7%E1%83%94%E1%83%9C%E1%83%94%E1%83%91%E1%83%94%E1%83%9C-%E1%83%99%E1%83%95%E1%83%9A%E1%83%94%E1%83%95%E1%83%90")!
+        let urlLiteral: URL = "https://on.ge/story/59808-%E1%83%9B%E1%83%94%E1%83%AA%E1%83%9C%E1%83%98%E1%83%94%E1%83%A0%E1%83%94%E1%83%91%E1%83%98-%E1%83%99%E1%83%9D%E1%83%A0%E1%83%9D%E1%83%9C%E1%83%90%E1%83%95%E1%83%98%E1%83%A0%E1%83%A3%E1%83%A1%E1%83%97%E1%83%90%E1%83%9C-%E1%83%91%E1%83%A0%E1%83%AB%E1%83%9D%E1%83%9A%E1%83%90%E1%83%A8%E1%83%98-%E1%83%9A%E1%83%90%E1%83%9B%E1%83%94%E1%83%91%E1%83%98%E1%83%A1-%E1%83%90%E1%83%9C%E1%83%A2%E1%83%98%E1%83%A1%E1%83%AE%E1%83%94%E1%83%A3%E1%83%94%E1%83%9A%E1%83%91%E1%83%A1-%E1%83%98%E1%83%A7%E1%83%94%E1%83%9C%E1%83%94%E1%83%91%E1%83%94%E1%83%9C-%E1%83%99%E1%83%95%E1%83%9A%E1%83%94%E1%83%95%E1%83%90"
+        
+        XCTAssert(url.absoluteString == urlLiteral.absoluteString)
+    }
+    
+    func testURLExpressibleByStringLiteral3() {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "github.com"
+        urlComponents.path = "/search/repositories"
+        let urlLiteral: URL = "https://github.com/search/repositories"
+
+        XCTAssert(urlComponents.url?.absoluteString == urlLiteral.absoluteString)
+    }
+    
+    func testURLExpressibleByStringLiteral4() {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "http"
+        urlComponents.host = "github.com"
+        urlComponents.path = "/search/repositories"
+        let urlLiteral: URL = "http://github.com/search/repositories"
+
+        XCTAssert(urlComponents.url?.absoluteString == urlLiteral.absoluteString)
+    }
+    
+    func testURLExpressibleByStringLiteral5() {
+        let searchTerm = "hello+there"
+        let format = "general+kenobi"
+
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "example.com"
+        urlComponents.path = "/ex"
+        urlComponents.queryItems = [
+          URLQueryItem(name: "query", value: searchTerm),
+          URLQueryItem(name: "person", value: format)
+        ]
+        
+        let urlLiteral: URL = "https://example.com/ex?query=hello+there&person=general+kenobi"
+
+        XCTAssert(urlComponents.url?.absoluteString == urlLiteral.absoluteString)
     }
 }
