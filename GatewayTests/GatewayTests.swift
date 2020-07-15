@@ -2,6 +2,9 @@
 //  GatewayTests.swift
 //  GatewayTests
 //
+//  Created by Vato Kostava on 7/5/20.
+//  Copyright © 2020 Vato Kostava. All rights reserved.
+//
 
 import XCTest
 @testable import Gateway
