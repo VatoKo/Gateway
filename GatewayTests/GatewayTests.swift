@@ -202,12 +202,61 @@ class GatewayTests: XCTestCase {
         urlComponents.host = "example.com"
         urlComponents.path = "/ex"
         urlComponents.queryItems = [
-          URLQueryItem(name: "query", value: searchTerm),
-          URLQueryItem(name: "person", value: format)
+            URLQueryItem(name: "query", value: searchTerm),
+            URLQueryItem(name: "person", value: format)
         ]
         
         let urlLiteral: URL = "https://example.com/ex?query=hello+there&person=general+kenobi"
 
         XCTAssert(urlComponents.url?.absoluteString == urlLiteral.absoluteString)
+    }
+    
+    func testJSONEncode1() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let jsonEncoder = JSONParameterEncoder()
+        
+        let parameters: Parameters = ["id" : "1337"]
+        XCTAssertNoThrow(try jsonEncoder.encode(parameters: parameters, in: request))
+        XCTAssertEqual(try! JSONDecoder().decode(Parameters.self, from: (try! jsonEncoder.encode(parameters: parameters, in: request)).httpBody!), parameters)
+    }
+    
+    func testJSONEncode2() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let jsonEncoder = JSONParameterEncoder()
+        
+        let parameters: Parameters = [
+            "username" : "general_kenobi",
+            "first_name" : "Obi-Wan",
+            "last_name" : "Kenobi"
+        ]
+        
+        XCTAssertNoThrow(try jsonEncoder.encode(parameters: parameters, in: request))
+        let newRequest = try! jsonEncoder.encode(parameters: parameters, in: request)
+        let decodedResult = try! JSONDecoder().decode(Parameters.self, from: newRequest.httpBody!)
+        XCTAssertEqual(decodedResult, parameters)
+    }
+    
+    func testJSONEncode3() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let jsonEncoder = JSONParameterEncoder()
+
+        let parameters: Parameters = [
+           "პირადი_ნომერი" : "1337",
+        ]
+
+        XCTAssertNoThrow(try jsonEncoder.encode(parameters: parameters, in: request))
+        let newRequest = try! jsonEncoder.encode(parameters: parameters, in: request)
+        let decodedResult = try! JSONDecoder().decode(Parameters.self, from: newRequest.httpBody!)
+        XCTAssertEqual(decodedResult, parameters)
+    }
+    
+    func testJSONEncode4() {
+        let request = URLRequest(url: URL(string: "localhost")!)
+        let jsonEncoder = JSONParameterEncoder()
+           
+        let parameters: Parameters = [:]
+           
+        XCTAssertNoThrow(try jsonEncoder.encode(parameters: parameters, in: request))
+        XCTAssertEqual(request, try! jsonEncoder.encode(parameters: parameters, in: request))
     }
 }
