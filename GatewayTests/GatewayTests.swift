@@ -210,6 +210,7 @@ class GatewayTests: XCTestCase {
 
         XCTAssert(urlComponents.url?.absoluteString == urlLiteral.absoluteString)
     }
+
     
     func testJSONEncode1() {
         let request = URLRequest(url: URL(string: "localhost")!)
@@ -260,3 +261,4 @@ class GatewayTests: XCTestCase {
         XCTAssertEqual(request, try! jsonEncoder.encode(parameters: parameters, in: request))
     }
 }
+
