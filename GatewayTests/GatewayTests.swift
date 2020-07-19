@@ -260,5 +260,42 @@ class GatewayTests: XCTestCase {
         XCTAssertNoThrow(try jsonEncoder.encode(parameters: parameters, in: request))
         XCTAssertEqual(request, try! jsonEncoder.encode(parameters: parameters, in: request))
     }
+    
+    func testHTTPURLResponseSuccessful1() {
+        let request = URLRequest(url: URL(string: "https://example.com")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response, error) in
+
+            let httpURLResponse = response as! HTTPURLResponse
+            XCTAssert(httpURLResponse.isSuccessful)
+        })
+        task.resume()
+    }
+    
+    func testHTTPURLResponseSuccessful2() {
+        let request = URLRequest(url: URL(string: "https://google.com/nonexistingpage")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response, error) in
+
+            let httpURLResponse = response as! HTTPURLResponse
+            XCTAssert(!httpURLResponse.isSuccessful)
+        })
+        task.resume()
+    }
+    
+    func testHTTPURLResponseSuccessful3() {
+        let request = URLRequest(url: URL(string: "https://google.com/i-just-made-up-this-page")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response, error) in
+
+            let httpURLResponse = response as! HTTPURLResponse
+            XCTAssert(!httpURLResponse.isSuccessful)
+        })
+        task.resume()
+    }
+
 }
 
