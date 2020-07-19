@@ -11,7 +11,7 @@ import Foundation
 public extension HTTPURLResponse {
     
     /// Returns true if HTTP status code is in range [200, 300), false otherwise
-    var isSuccessfull: Bool {
+    var isSuccessful: Bool {
         return 200..<300 ~= statusCode
     }
     
