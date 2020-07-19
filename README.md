@@ -157,6 +157,17 @@ request.send(dispatchResultOn: .main) { response in
 
 ## Release History
 
+* 1.0.0
+    * First Release
+* 0.0.3
+    * Work in progress
+    * Add pod install functionality
+    * Modify podspec file
+    * Add more unit test
+* 0.0.2
+    * Work in progress
+    * Add pod install functionality
+    * Add unit tests
 * 0.0.1
     * Work in progress
 
