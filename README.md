@@ -4,7 +4,7 @@
 > Simple, elegant, easy-to-use network layer for Swift
 ---
 
-Gateway is very simple, elegant and easy-to-use network layer for Swift, which will help you make HTTP requests, receive responses and parse received data into Swift's native objects.
+Gateway is a very simple, elegant and easy-to-use network layer for Swift, which will help you make HTTP requests, receive responses and parse received data into Swift's native objects.
 ---
 
 ## Installation
